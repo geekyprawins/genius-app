@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/material.dart';
 import 'package:genius/registration_screen.dart';
 import 'package:genius/widgets/animated_page_route.dart';
 
@@ -19,21 +19,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void initState() {
     super.initState();
     controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 4));
+        AnimationController(vsync: this, duration: const Duration(seconds: 4));
     // animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
     animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
         .animate(controller);
-    controller.forward();
-    // animation.addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     controller.reverse(from: 1.0);
-    //   } else if (status == AnimationStatus.dismissed) {
-    //     controller.forward();
-    //   }
-    // });
-    controller.addListener(() {
-      setState(() {});
-    });
+    controller
+      ..forward()
+      // animation.addStatusListener((status) {
+      //   if (status == AnimationStatus.completed) {
+      //     controller.reverse(from: 1.0);
+      //   } else if (status == AnimationStatus.dismissed) {
+      //     controller.forward();
+      //   }
+      // });
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -47,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return Scaffold(
       backgroundColor: animation.value as Color,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,34 +57,57 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               children: <Widget>[
                 Hero(
                   tag: 'logo',
-                  child: Container(
-                    child: Image.asset('images/logo.png'),
+                  child: SizedBox(
                     height: 60,
+                    child: Image.asset('images/logo.png'),
                   ),
                 ),
-                // ignore: deprecated_member_use
-                TypewriterAnimatedTextKit(
-                  text: ['Flash Chat'],
-                  speed: Duration(milliseconds: 200),
-                  textStyle: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
+                SizedBox(
+                  width: 250,
+                  child: DefaultTextStyle(
+                    style: const TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    child: AnimatedTextKit(
+                      animatedTexts: [
+                        TypewriterAnimatedText(
+                          'Welcome to Genius!',
+                          speed: const Duration(milliseconds: 100),
+                          cursor: '🎶',
+                          curve: Curves.easeIn,
+                        ),
+                        TypewriterAnimatedText(
+                          'Search your favourite songs..',
+                          cursor: '🎶',
+                          speed: const Duration(milliseconds: 100),
+                          curve: Curves.easeIn,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                // TypewriterAnimatedTextKit(
+                //   text: ['Genius App'],
+                //   speed: Duration(milliseconds: 200),
+                //   textStyle: TextStyle(
+                //     fontSize: 45.0,
+                //     fontWeight: FontWeight.w900,
+                //     color: Colors.black,
+                //   ),
+                // ),
               ],
             ),
-            SizedBox(
-              height: 48.0,
-            ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Material(
-                elevation: 5.0,
+                elevation: 5,
                 color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(30),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       AnimatedPageRoute(
                         LoginScreen(),
@@ -106,7 +130,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 borderRadius: BorderRadius.circular(30.0),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       AnimatedPageRoute(
                         RegistrationScreen(),

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import '../models/song/song.dart';
 
 class FavouritesProvider with ChangeNotifier {
-  addWishListData({
+  addFavSongData({
     required String apiPath,
     required int id,
     required String artistNames,
@@ -35,7 +35,6 @@ class FavouritesProvider with ChangeNotifier {
     });
   }
 
-///// Get WishList Data ///////
   List<Song> favSongs = [];
 
   getWishtListData() async {
@@ -47,7 +46,7 @@ class FavouritesProvider with ChangeNotifier {
         .get();
     value.docs.forEach(
       (element) {
-        Song productModel = Song(
+        Song songModel = Song(
           apiPath: element.get('api_path') as String,
           id: element.get('id') as int,
           artistNames: element.get('artist_names') as String,
@@ -60,23 +59,22 @@ class FavouritesProvider with ChangeNotifier {
           url: element.get('url') as String,
           path: element.get('path') as String,
         );
-        newList.add(productModel);
+        newList.add(songModel);
       },
     );
     favSongs = newList;
     notifyListeners();
   }
 
-  List<Song> get getWishList {
+  List<Song> get getFavSongs {
     return favSongs;
   }
 
-////////// Delete WishList /////
-  deleteWishtList(id) {
+  deleteFavSong(id) {
     FirebaseFirestore.instance
-        .collection("WishList")
+        .collection("favourite")
         .doc(FirebaseAuth.instance.currentUser?.uid)
-        .collection("YourWishList")
+        .collection("YourFavourites")
         .doc(id.toString())
         .delete();
   }

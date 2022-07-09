@@ -12,6 +12,7 @@ import 'package:genius/home_screen.dart';
 import 'package:genius/l10n/l10n.dart';
 import 'package:genius/login_screen.dart';
 import 'package:genius/providers/favourites_provider.dart';
+import 'package:genius/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/user_provider.dart';
@@ -48,7 +49,7 @@ class App extends StatelessWidget {
             if (snapShot.hasData) {
               return const HomeScreen();
             }
-            return LoginScreen();
+            return WelcomeScreen();
           },
         ),
       ),

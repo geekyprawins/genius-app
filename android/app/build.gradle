@@ -95,7 +95,7 @@ android {
         }
         development {
             dimension "default"
-            applicationIdSuffix ".dev"
+            applicationIdSuffix ""
             manifestPlaceholders = [appName: "[DEV] Genius"]
         }
     }
