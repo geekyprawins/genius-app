@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:genius/constants.dart';
 import 'package:genius/models/song/song.dart';
+import 'package:genius/services/hive_service.dart';
 
 import 'package:genius/widgets/song_tile.dart';
 
@@ -144,6 +145,7 @@ class _SearchPageState extends State<SearchPage> {
                           itemBuilder: (context, index) {
                             final song = snapshot.data![index];
                             return SongTile(
+                              isFav: false,
                               song: song,
                               songTitle: song.title,
                               imgUrl: song.headerImageThumbnailURL,

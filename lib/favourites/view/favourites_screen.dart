@@ -5,30 +5,30 @@ import 'package:genius/widgets/song_tile.dart';
 
 import '../../constants.dart';
 
-class RecentsScreen extends StatefulWidget {
-  const RecentsScreen({Key? key}) : super(key: key);
+class FavouritesScreen extends StatefulWidget {
+  const FavouritesScreen({Key? key}) : super(key: key);
 
   @override
-  State<RecentsScreen> createState() => _RecentsScreenState();
+  State<FavouritesScreen> createState() => _FavouritesScreenState();
 }
 
-class _RecentsScreenState extends State<RecentsScreen> {
+class _FavouritesScreenState extends State<FavouritesScreen> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    HiveService.getFromPrefs(Constants.recents);
+    HiveService.getFromPrefs(Constants.favourites);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Recents'),
+        title: const Text('Favourites'),
       ),
       body: Center(
         child: FutureBuilder(
-          future: HiveService.getFromPrefs(Constants.recents),
+          future: HiveService.getFromPrefs(Constants.favourites),
           builder:
               (context, AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -39,7 +39,7 @@ class _RecentsScreenState extends State<RecentsScreen> {
                 itemBuilder: (context, index) {
                   final recentSong = Song.fromJson(snapshot.data![index]);
                   return SongTile(
-                    isFav: false,
+                    isFav: true,
                     song: recentSong,
                     songTitle: recentSong.title,
                     imgUrl: recentSong.headerImageThumbnailURL,
@@ -49,11 +49,10 @@ class _RecentsScreenState extends State<RecentsScreen> {
                 },
                 itemCount: snapshot.data!.length,
                 separatorBuilder: (BuildContext context, int index) {
-                  return Divider();
+                  return const Divider();
                 },
               );
             }
-
             return const Text('Nothing to display');
           },
         ),

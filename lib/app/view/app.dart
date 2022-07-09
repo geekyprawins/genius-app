@@ -5,10 +5,16 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:genius/home_screen.dart';
 import 'package:genius/l10n/l10n.dart';
+import 'package:genius/login_screen.dart';
+import 'package:genius/providers/favourites_provider.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/user_provider.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -27,7 +33,25 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const HomeScreen(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<UserProvider>(
+            create: (context) => UserProvider(),
+          ),
+          ChangeNotifierProvider<FavouritesProvider>(
+            create: (context) => FavouritesProvider(),
+          ),
+        ],
+        child: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapShot) {
+            if (snapShot.hasData) {
+              return const HomeScreen();
+            }
+            return LoginScreen();
+          },
+        ),
+      ),
     );
   }
 }

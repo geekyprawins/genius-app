@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genius/constants.dart';
 import 'package:genius/services/hive_service.dart';
 import 'package:genius/widgets/webview_container.dart';
-
 import '../models/song/song.dart';
 
 class SongTile extends StatefulWidget {
@@ -13,6 +13,7 @@ class SongTile extends StatefulWidget {
     required this.artists,
     required this.songUrl,
     required this.song,
+    required this.isFav,
   });
   final String songTitle;
   final String imgUrl;
@@ -20,6 +21,7 @@ class SongTile extends StatefulWidget {
 
   final String songUrl;
   final Song song;
+  final bool isFav;
 
   @override
   State<SongTile> createState() => _SongTileState();
@@ -27,11 +29,11 @@ class SongTile extends StatefulWidget {
 
 class _SongTileState extends State<SongTile> {
   bool isLiked = false;
-
-  void toggleLike() {
+  void toggleLike() async {
     setState(() {
       isLiked = !isLiked;
     });
+    await HiveService.manageFavourites(isLiked, widget.song.toJson());
   }
 
   @override

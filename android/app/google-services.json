@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "494961616149",
+    "project_id": "genius-d696c",
+    "storage_bucket": "genius-d696c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494961616149:android:84703928baea8509ee351c",
+        "android_client_info": {
+          "package_name": "com.example.verygoodcore.genius"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494961616149-252s0s1ctqp8r8o6vat88kkgn103rrt4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRoVNjW4llv8QXFMydJYqqmpD6pYvlX7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "494961616149-252s0s1ctqp8r8o6vat88kkgn103rrt4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

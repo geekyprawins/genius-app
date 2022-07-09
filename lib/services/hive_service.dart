@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:genius/constants.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HiveService {
@@ -27,23 +27,21 @@ class HiveService {
     await prefs.setStringList('recents', items);
   }
 
-  static Map<String, dynamic> jsonStringToMap(String data) {
-    List<String> str = data
-        .replaceAll("{", "")
-        .replaceAll("}", "")
-        .replaceAll("\"", "")
-        .replaceAll("'", "")
-        .split(",");
-    Map<String, dynamic> result = {};
-    for (int i = 0; i < str.length; i++) {
-      List<String> s = str[i].split(":");
-      result.putIfAbsent(s[0].trim(), () => s[1].trim());
+  static Future<void> manageFavourites(
+    bool isLiked,
+    Map<String, dynamic> data,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final items = prefs.getStringList(Constants.favourites) ?? [];
+    if (isLiked) {
+      items.add(jsonEncode(data));
+    } else {
+      items.remove(jsonEncode(data));
     }
-    return result;
+    await prefs.setStringList(Constants.favourites, items);
   }
 
-  static Future<List<Map<String, dynamic>>> getRecents() async {
-    print("inside GET");
+  static Future<List<Map<String, dynamic>>> getFromPrefs(String pref) async {
     final prefs = await SharedPreferences.getInstance();
     // var recentsBox = await Hive.openBox('recents');
     // List<Map<String, dynamic>> recentData = [];
@@ -54,11 +52,22 @@ class HiveService {
     // }
 
     // return Future(() => recentData);
-    final List<String> items = await prefs.getStringList('recents') ?? [];
+    final List<String> items = await prefs.getStringList(pref) ?? [];
     var recents = <Map<String, dynamic>>[];
     for (final s in items) {
       recents.add(Map<String, dynamic>.from(json.decode(s) as Map));
     }
     return Future(() => recents);
+  }
+
+  static Future<bool> checkFav(Map<String, dynamic> data) async {
+    bool isLiked;
+    final items = await HiveService.getFromPrefs(Constants.favourites);
+    if (items.contains(data)) {
+      isLiked = true;
+    } else {
+      isLiked = false;
+    }
+    return isLiked;
   }
 }
