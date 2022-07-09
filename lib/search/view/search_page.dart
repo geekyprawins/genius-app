@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:genius/constants.dart';
-import 'package:genius/models/song.dart';
+import 'package:genius/models/song/song.dart';
 
-import '../../widgets/song_tile.dart';
+import 'package:genius/widgets/song_tile.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -144,9 +144,11 @@ class _SearchPageState extends State<SearchPage> {
                           itemBuilder: (context, index) {
                             final song = snapshot.data![index];
                             return SongTile(
+                              song: song,
                               songTitle: song.title,
                               imgUrl: song.headerImageThumbnailURL,
                               artists: song.artistNames,
+                              songUrl: song.url,
                             );
                           },
                           itemCount: snapshot.data!.length,

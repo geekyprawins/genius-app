@@ -1,0 +1,49 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+class WebViewContainer extends StatefulWidget {
+  final url;
+  final title;
+  WebViewContainer(this.url, this.title);
+  @override
+  createState() => _WebViewContainerState(this.url, this.title);
+}
+
+class _WebViewContainerState extends State<WebViewContainer> {
+  var _url;
+  var _title;
+  final _key = UniqueKey();
+  _WebViewContainerState(this._url, this._title);
+
+  @override
+  void initState() {
+    super.initState();
+    // Enable virtual display.
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text(_title.toString()),
+        // backgroundColor: Colors.black87,
+      ),
+
+      body: Column(
+        children: [
+          Expanded(
+            child: WebView(
+              key: _key,
+              javascriptMode: JavascriptMode.unrestricted,
+              initialUrl: _url.toString(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

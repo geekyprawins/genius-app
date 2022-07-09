@@ -7,7 +7,10 @@
 
 import 'package:genius/app/app.dart';
 import 'package:genius/bootstrap.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
   bootstrap(() => const App());
 }

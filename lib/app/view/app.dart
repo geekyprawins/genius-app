@@ -7,9 +7,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:genius/counter/counter.dart';
+import 'package:genius/home_screen.dart';
 import 'package:genius/l10n/l10n.dart';
-import 'package:genius/search/view/search_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -28,7 +27,7 @@ class App extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const SearchPage(),
+      home: const HomeScreen(),
     );
   }
 }
