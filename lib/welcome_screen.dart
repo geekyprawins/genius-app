@@ -1,20 +1,21 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:genius/providers/user_provider.dart';
 import 'package:genius/registration_screen.dart';
 import 'package:genius/widgets/animated_page_route.dart';
+import 'package:provider/provider.dart';
 
 import 'login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static const String id = 'welcome_screen';
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation animation;
+  AnimationController? controller;
+  Animation? animation;
   @override
   void initState() {
     super.initState();
@@ -22,8 +23,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         AnimationController(vsync: this, duration: const Duration(seconds: 4));
     // animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
     animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
-        .animate(controller);
-    controller
+        .animate(controller!);
+    controller!
       ..forward()
       // animation.addStatusListener((status) {
       //   if (status == AnimationStatus.completed) {
@@ -39,14 +40,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   void dispose() {
+    controller!.dispose();
     super.dispose();
-    controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
-      backgroundColor: animation.value as Color,
+      backgroundColor: animation!.value as Color,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
@@ -133,7 +135,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     Navigator.push(
                       context,
                       AnimatedPageRoute(
-                        RegistrationScreen(),
+                        RegistrationScreen(
+                          up: userProvider,
+                        ),
                       ),
                     );
                   },

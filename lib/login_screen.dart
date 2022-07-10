@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:genius/home_screen.dart';
+import 'package:genius/providers/user_provider.dart';
 import 'package:genius/utils/utils.dart';
 import 'package:genius/widgets/animated_page_route.dart';
+import 'package:provider/provider.dart';
 import './constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,7 +15,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
-
   late String email;
   late String password;
   @override
@@ -75,7 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     try {
                       final user = await _auth.signInWithEmailAndPassword(
-                          email: email, password: password);
+                        email: email,
+                        password: password,
+                      );
 
                       if (user != null) {
                         Navigator.pop(context);
