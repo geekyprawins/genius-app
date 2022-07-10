@@ -4,12 +4,14 @@ import 'package:genius/models/song/song.dart';
 import 'package:genius/widgets/song_tile.dart';
 
 import '../../constants.dart';
+import '../../providers/favourites_provider.dart';
 
 class RecentsScreen extends StatefulWidget {
-  const RecentsScreen({Key? key}) : super(key: key);
+  const RecentsScreen({Key? key, required this.fp}) : super(key: key);
 
   @override
   State<RecentsScreen> createState() => _RecentsScreenState();
+  final FavouritesProvider fp;
 }
 
 class _RecentsScreenState extends State<RecentsScreen> {
@@ -45,6 +47,7 @@ class _RecentsScreenState extends State<RecentsScreen> {
                     imgUrl: recentSong.headerImageThumbnailURL,
                     artists: recentSong.artistNames,
                     songUrl: recentSong.url,
+                    fp: widget.fp,
                   );
                 },
                 itemCount: snapshot.data!.length,

@@ -2,8 +2,10 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genius/favourites/view/favourites_screen.dart';
+import 'package:genius/providers/favourites_provider.dart';
 import 'package:genius/recents/view/recents_screen.dart';
 import 'package:genius/search/view/search_page.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final favProvider = Provider.of<FavouritesProvider>(context);
     return Scaffold(
       body: SizedBox.expand(
         child: PageView(
@@ -37,10 +40,16 @@ class _HomeScreenState extends State<HomeScreen> {
           onPageChanged: (index) {
             setState(() => _currentIndex = index);
           },
-          children: const <Widget>[
-            SearchPage(),
-            RecentsScreen(),
-            FavouritesScreen(),
+          children: <Widget>[
+            SearchPage(
+              fp: favProvider,
+            ),
+            RecentsScreen(
+              fp: favProvider,
+            ),
+            FavouritesScreen(
+              fp: favProvider,
+            ),
           ],
         ),
       ),

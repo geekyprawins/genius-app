@@ -37,7 +37,7 @@ class FavouritesProvider with ChangeNotifier {
 
   List<Song> favSongs = [];
 
-  getWishtListData() async {
+  getFavSongsData() async {
     List<Song> newList = [];
     QuerySnapshot value = await FirebaseFirestore.instance
         .collection("favourite")

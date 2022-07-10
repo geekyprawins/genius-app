@@ -6,11 +6,14 @@ import 'package:genius/services/hive_service.dart';
 
 import 'package:genius/widgets/song_tile.dart';
 
+import '../../providers/favourites_provider.dart';
+
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  const SearchPage({super.key, required this.fp});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
+  final FavouritesProvider fp;
 }
 
 class _SearchPageState extends State<SearchPage> {
@@ -151,6 +154,7 @@ class _SearchPageState extends State<SearchPage> {
                               imgUrl: song.headerImageThumbnailURL,
                               artists: song.artistNames,
                               songUrl: song.url,
+                              fp: widget.fp,
                             );
                           },
                           itemCount: snapshot.data!.length,

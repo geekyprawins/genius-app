@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genius/constants.dart';
+import 'package:genius/providers/favourites_provider.dart';
 import 'package:genius/services/hive_service.dart';
 import 'package:genius/widgets/webview_container.dart';
 import 'package:provider/provider.dart';
 import '../models/song/song.dart';
-import '../providers/favourites_provider.dart';
 
-class SongTile extends StatefulWidget {
-  const SongTile({
+class FavSongTile extends StatefulWidget {
+  const FavSongTile({
     super.key,
     required this.songTitle,
     required this.imgUrl,
     required this.artists,
     required this.songUrl,
     required this.song,
-    required this.isFav,
-    required this.fp,
   });
   final String songTitle;
   final String imgUrl;
@@ -24,41 +22,15 @@ class SongTile extends StatefulWidget {
 
   final String songUrl;
   final Song song;
-  final bool isFav;
-  final FavouritesProvider fp;
 
   @override
-  State<SongTile> createState() => _SongTileState();
+  State<FavSongTile> createState() => _FavSongTileState();
 }
 
-class _SongTileState extends State<SongTile> {
-  bool isLiked = false;
-  FavouritesProvider? favProvider;
-  void toggleLike() {
-    setState(() {
-      isLiked = !isLiked;
-    });
-    if (isLiked) {
-      favProvider!.addFavSongData(
-        apiPath: widget.song.apiPath,
-        id: widget.song.id,
-        artistNames: widget.song.artistNames,
-        title: widget.song.title,
-        headerImageThumbnailURL: widget.song.headerImageThumbnailURL,
-        headerImageURL: widget.song.headerImageURL,
-        releaseDateForDisplay: widget.song.releaseDateForDisplay,
-        url: widget.song.url,
-        path: widget.song.path,
-      );
-    } else {
-      favProvider!.deleteFavSong(widget.song.id);
-    }
-    // await HiveService.manageFavourites(isLiked, widget.song.toJson());
-  }
-
+class _FavSongTileState extends State<FavSongTile> {
   @override
   Widget build(BuildContext context) {
-    favProvider = widget.fp;
+    final favProvider = Provider.of<FavouritesProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
       child: Card(
@@ -139,16 +111,12 @@ class _SongTileState extends State<SongTile> {
             ),
             IconButton(
               splashRadius: 1,
-              onPressed: toggleLike,
-              icon: isLiked
-                  ? const FaIcon(
-                      FontAwesomeIcons.solidHeart,
-                      color: Colors.pink,
-                    )
-                  : const FaIcon(
-                      FontAwesomeIcons.heart,
-                      color: Colors.black,
-                    ),
+              onPressed: () {
+                favProvider.deleteFavSong(widget.song.id);
+              },
+              icon: const FaIcon(
+                FontAwesomeIcons.trash,
+              ),
             ),
           ],
         ),
